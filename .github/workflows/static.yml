@@ -22,6 +22,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  publish-docs:
+    stage: publish-docs
+    image:
+      name: confluencepublisher/confluence-publisher:0.0.0-SNAPSHOT
+      entrypoint: [""]
+    variables:
+      ASCIIDOC_ROOT_FOLDER: ./
+      ROOT_CONFLUENCE_URL: https://manateluguradio.atlassian.net
+      ASCIIDOC_BUILD_FOLDER: $CI_PROJECT_DIR/build/docs
+    script:
+      - publish.sh
+    archive:
+      paths:
+      - $CI_PROJECT_DIR/build/docs
+    
   # Single deploy job since we're just deploying
   deploy:
     environment:
